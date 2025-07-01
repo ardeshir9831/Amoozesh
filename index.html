@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>آموزش HTML و CSS - سایت حرفه‌ای</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Vazir', Tahoma, sans-serif;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #f5f5f5;
+    color: #222;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  body.dark {
+    background-color: #121212;
+    color: #eee;
+  }
+  a {
+    color: #0d6efd;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  a:hover {
+    color: #0a58ca;
+  }
+  /* Container */
+  .container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+  /* Header */
+  header {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    user-select: none;
+  }
+  /* Nav */
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  nav a {
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  nav a:hover {
+    background-color: rgba(255 255 255 / 0.2);
+  }
+  /* Dropdown */
+  .dropdown {
+    position: relative;
+  }
+  .dropdown-content {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    border-radius: 6px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    display: none;
+    flex-direction: column;
+    z-index: 2000;
+  }
+  body.dark .dropdown-content {
+    background-color: #222;
+  }
+  .dropdown-content a {
+    padding: 10px 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+  }
+  body.dark .dropdown-content a {
+    color: #eee;
+    border-color: #444;
+  }
+  .dropdown-content a:hover {
+    background-color: #0d6efd;
+    color: white;
+  }
+  .dropdown:hover .dropdown-content {
+    display: flex;
+  }
+
+  /* Hamburger for mobile */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+  }
+  .hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+  }
+  /* Mobile nav */
+  @media (max-width: 768px) {
+    nav {
+      position: fixed;
+      top: 56px;
+      right: -100%;
+      background-color: #0d6efd;
+      height: calc(100vh - 56px);
+      width: 200px;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      transition: right 0.3s ease;
+      z-index: 1500;
+    }
+    nav.open {
+      right: 0;
+    }
+    .hamburger {
+      display: flex;
+    }
+    .dropdown-content {
+      position: static;
+      box-shadow: none;
+      background-color: transparent;
+    }
+    .dropdown-content a {
+      border: none;
+      color: white;
+      padding: 8px 0;
+    }
+    .dropdown:hover .dropdown-content {
+      display: none;
+    }
+    .dropdown > input[type="checkbox"] {
+      display: none;
+    }
+    .dropdown label {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .dropdown input[type="checkbox"]:checked + .dropdown-content {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  /* Dark Mode Toggle Button */
+  .dark-mode-toggle {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1.3rem;
+    user-select: none;
+  }
+
+  /* Main sections */
+  section {
+    padding: 40px 0;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2rem;
+  }
+
+  /* Courses cards */
+  .courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+  }
+  .course-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgb(13 110 253 / 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  body.dark .course-card {
+    background-color: #1e1e1e;
+    box-shadow: 0 8px 16px rgba(255 255 255 / 0.1);
+  }
+  .course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgb(13 110 253 / 0.5);
+  }
+  .course-card h3 {
+    margin-bottom: 10px;
+    color: #0d6efd;
+  }
+  .course-card p {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  body.dark .course-card p {
+    color: #bbb;
+  }
+  .course-card button {
+    margin-top: 15px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  .course-card button:hover {
+    background-color: #0a58ca;
+  }
+
+  /* FAQ */
+  .faq-item {
+    max-width: 800px;
+    margin: 0 auto 15px auto;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  body.dark .faq-item {
+    background-color: #222;
+  }
+  .faq-item:hover {
+    background-color: #f0f8ff;
+  }
+  body.dark .faq-item:hover {
+    background-color: #333;
+  }
+  .faq-question {
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-answer {
+    margin-top: 10px;
+    display: none;
+    color: #444;
+  }
+  body.dark .faq-answer {
+    color: #ccc;
+  }
+  .faq-item.active .faq-answer {
+    display: block;
+  }
+  .faq-toggle-icon {
+    font-size: 1.5rem;
+    user-select: none;
+  }
+
+  /* Contact form */
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(13 110 253 / 0.2);
+  }
+  body.dark form {
+    background-color: #222;
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  input[type=text],
+  input[type=email],
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+  }
+  body.dark input[type=text],
+  body.dark input[type=email],
+  body.dark textarea {
+    background-color: #333;
+    border-color: #555;
+    color: white;
+  }
+  input[type=text]:focus,
+  input[type=email]:focus,
+  textarea:focus {
+    border-color: #0d6efd;
+    outline: none;
+  }
+  button[type=submit] {
+    background-color: #0d6efd;
+    color: white;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  button[type=submit]:hover {
+    background-color: #0a58ca;
+  }
+
+  /* Feedback */
+  #feedback-message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    color: green;
+    display: none;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px 15px;
+    background-color: #0d6efd;
+    color: white;
+    margin-top: 40px;
+    user-select: none;
+  }
+
+  /* Scroll reveal animations */
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+  }
+  [data-animate].active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+</style>
+<!-- فونت وزیر از گوگل -->
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+<!-- FontAwesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+<header>
+  <div class="logo" title="آموزش HTML و CSS">آموزش حرفه‌ای HTML و CSS</div>
+  <button class="dark-mode-toggle" aria-label="تغییر تم" title="تغییر تم">
+    <i class="fa-regular fa-moon"></i>
+  </button>
+  <div class="hamburger" aria-label="باز کردن منو" role="button" tabindex="0">
+    <div></div><div></div><div></div>
+  </div>
+  <nav>
+    <a href="#home">خانه</a>
+    <a href="#courses">دوره‌ها</a>
+    <a href="#faq">سوالات متداول</a>
+    <a href="#contact">تماس با ما</a>
+    <div class="dropdown" tabindex="0" aria-haspopup="true" aria-expanded="false">
+      <a href="#" aria-haspopup="true" aria-expanded="false">بیشتر <i class="fa fa-caret-down"></i></a>
+      <div class="dropdown-content" role="menu" aria-label="زیر منو بیشتر">
+        <a href="#blog">بلاگ</a>
+        <a href="#feedback">نظرات کاربران</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="container" id="home" data-animate>
+  <section>
+    <h2>به سایت آموزش برنامه نویسی AV خوش آمدید.</h2>
+    <p style="text-align:center; max-width:700px; margin:auto; font-size:1.1rem;">
+      این سایت به شما کمک می‌کند تا اصول و تکنیک‌های حرفه‌ای HTML و CSS را یاد بگیرید و به یک طراح وب ماهر تبدیل شوید.
+    </p>
+  </section>
+
+  <section id="courses" data-animate>
+    <h2>دوره‌های آموزشی</h2>
+    <div class="courses">
+      <div class="course-card">
+        <h3>مقدمات HTML</h3>
+        <p>آموزش ساختار و تگ‌های پایه HTML به صورت کاملاً ساده و روان.</p>
+        <button onclick="alert('ثبت نام دوره مقدمات HTML انجام شد!')">ثبت نام</button>
+      </div>
+      <div class="course-card">
+        <h3>CSS برای مبتدیان</h3>
+        <p>یادگیری طراحی صفحات وب با CSS و آشنایی با استایل‌دهی پایه.</p>
+        <button onclick="alert('ثبت نام دوره CSS برای مبتدیان انجام شد!')">ثبت نام</button>
+      </div>
+      <div class="course-card">
+        <h3>CSS پیشرفته</h3>
+        <p>افزودن انیمیشن، طراحی واکنش‌گرا و تکنیک‌های مدرن CSS.</p>
+        <button onclick="alert('ثبت نام دوره CSS پیشرفته انجام شد!')">ثبت نام</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" data-animate>
+    <h2>سوالات متداول</h2>
+    <div class="faq-item" tabindex="0">
+      <div class="faq-question">
+        سایت چقدر برای مبتدیان مناسب است؟
+        <span class="faq-toggle-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        سایت ما به گونه‌ای طراحی شده که از پایه تا پیشرفته را پوشش دهد و برای همه مناسب است.
+      </div>
+    </div>
+    <div class="faq-item" tabindex="0">
+      <div class="faq-question">
+        آیا این دوره‌ها رایگان هستند؟
+        <span class="faq-toggle-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        برخی دوره‌ها رایگان و برخی با هزینه کم ارائه می‌شوند.
+      </div>
+    </div>
+    <div class="faq-item" tabindex="0">
+      <div class="faq-question">
+        چطور می‌توانم ثبت نام کنم؟
+        <span class="faq-toggle-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        با کلیک روی دکمه ثبت نام در هر دوره می‌توانید به راحتی ثبت نام کنید.
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" data-animate>
+    <h2>تماس با ما</h2>
+    <form id="contact-form" novalidate>
+      <label for="name">نام شما:</label>
+      <input type="text" id="name" name="name" required placeholder="نام کامل" />
+      
+      <label for="email">ایمیل شما:</label>
+      <input type="email" id="email" name="email" required placeholder="example@mail.com" />
+      
+      <label for="message">پیام شما:</label>
+      <textarea id="message" name="message" rows="5" required placeholder="پیام خود را اینجا بنویسید"></textarea>
+      
+      <button type="submit">ارسال پیام</button>
+      <div id="feedback-message"></div>
+    </form>
+  </section>
+
+  <section id="feedback" data-animate>
+    <h2>نظرات کاربران</h2>
+    <p style="text-align:center; color:#555; font-style: italic;">
+      هنوز نظری ثبت نشده است. شما اولین نفر باشید!
+    </p>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 سایت آموزش HTML و CSS - همه حقوق محفوظ است
+</footer>
+
+<script>
+  // Dark mode toggle
+  const darkToggleBtn = document.querySelector('.dark-mode-toggle');
+  const bodyEl = document.body;
+  const icon = darkToggleBtn.querySelector('i');
+
+  // حالت قبلی را در localStorage ذخیره کن
+  if(localStorage.getItem('darkMode') === 'enabled'){
+    bodyEl.classList.add('dark');
+    icon.classList.replace('fa-moon', 'fa-sun');
+  }
+
+  darkToggleBtn.addEventListener('click', () => {
+    bodyEl.classList.toggle('dark');
+    if(bodyEl.classList.contains('dark')){
+      icon.classList.replace('fa-moon', 'fa-sun');
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      icon.classList.replace('fa-sun', 'fa-moon');
+      localStorage.setItem('darkMode', 'disabled');
+    }
+  });
+
+  // Hamburger menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('nav');
+
+  hamburger.addEventListener('click', () => {
+    nav.classList.toggle('open');
+  });
+  hamburger.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      nav.classList.toggle('open');
+    }
+  });
+
+  // FAQ toggle
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('active');
+      const icon = item.querySelector('.faq-toggle-icon');
+      icon.textContent = item.classList.contains('active') ? '−' : '+';
+    });
+    item.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        item.classList.toggle('active');
+        const icon = item.querySelector('.faq-toggle-icon');
+        icon.textContent = item.classList.contains('active') ? '−' : '+';
+      }
+    });
+  });
+
+  // Contact form validation and submit
+  const form = document.getElementById('contact-form');
+  const feedback = document.getElementById('feedback-message');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    feedback.style.color = 'red';
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    if(name.length < 3){
+      feedback.textContent = 'لطفا نام معتبر وارد کنید.';
+      return;
+    }
+    if(!email.match(/^\S+@\S+\.\S+$/)){
+      feedback.textContent = 'لطفا ایمیل معتبر وارد کنید.';
+      return;
+    }
+    if(message.length < 10){
+      feedback.textContent = 'پیام باید حداقل 10 کاراکتر باشد.';
+      return;
+    }
+
+    feedback.style.color = 'green';
+    feedback.textContent = 'پیام شما با موفقیت ارسال شد!';
+
+    // پاک کردن فرم بعد از ارسال
+    form.reset();
+  });
+
+  // Scroll reveal on scroll
+  const animateElements = document.querySelectorAll('[data-animate]');
+  function revealOnScroll(){
+    const triggerBottom = window.innerHeight * 0.85;
+    animateElements.forEach(el => {
+      const boxTop = el.getBoundingClientRect().top;
+      if(boxTop < triggerBottom){
+        el.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+</script>
+
+</body>
+</html>
